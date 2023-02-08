@@ -1,49 +1,132 @@
-import React from 'react'
+import React from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
-const Step3 = () => {
+
+const SignUpSchema = Yup.object({
+  name: Yup.string().min(2).required("Please enter your name "),
+  email: Yup.string().email().required("Please enter your email"),
+  password: Yup.string().min(6).required("Please fill the password"),
+  confirm_password: Yup.string()
+    .required()
+    .oneOf([Yup.ref("password"), null], "Passwords must match"),
+});
+
+const initialValues = {
+  name: "",
+  email: "",
+  password: "",
+  confirm_password: "",
+};
+
+const Step2 = () => {
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema:SignUpSchema,
+      onSubmit: (values, action) => {
+        console.log(
+          "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
+          values
+        );
+        action.resetForm();
+      },
+    });
+  console.log(
+    "🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors",
+    errors
+  );
+
   return (
     <>
-   <div className="accordion" id="accordionExample">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Accordion Item #1
-            </button>
-          </h2>
-          <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div className="accordion-body">
-              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingTwo">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Accordion Item #2
-            </button>
-          </h2>
-          <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-            <div className="accordion-body">
-              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-            </div>
-          </div>
-        </div>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingThree">
-            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Accordion Item #3
-            </button>
-          </h2>
-          <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-            <div className="accordion-body">
-              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-            </div>
-          </div>
-        </div>
-      </div>
-    
+     
+     
+      
+                <form onSubmit={handleSubmit}>
+                  <div className="input-block">
+                    <label htmlFor="name" className="input-label">
+                      Name
+                    </label>
+                    <input
+                      type="name"
+                      autoComplete="off"
+                      name="name"
+                      id="name"
+                      placeholder="Name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.name && touched.name ? (
+                      <p className="form-error">{errors.name}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="email" className="input-label">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      autoComplete="off"
+                      name="email"
+                      id="email"
+                      placeholder="Email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.email && touched.email ? (
+                      <p className="form-error">{errors.email}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="password" className="input-label">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      autoComplete="off"
+                      name="password"
+                      id="password"
+                      placeholder="Password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.password && touched.password ? (
+                      <p className="form-error">{errors.password}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="confirm_password" className="input-label">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      autoComplete="off"
+                      name="confirm_password"
+                      id="confirm_password"
+                      placeholder="Confirm Password"
+                      value={values.confirm_password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.confirm_password && touched.confirm_password ? (
+                      <p className="form-error">{errors.confirm_password}</p>
+                    ) : null}
+                  </div>
+                  <div >
+                  
+                    <button className="input-button" type="submit">
+                      Registration
+                    </button>
+                  </div>
+                </form>
+          
+     
     </>
-  )
-}
+  );
+};
 
-export default Step3
+
+export default Step2;

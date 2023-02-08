@@ -18,6 +18,13 @@ export default function App() {
 		setStep(nextStep < 0 ? 0 : nextStep > 3 ? 3 : nextStep);
 	};
 
+
+
+
+	
+
+
+
 	const onNext = () => onChange(step + 1);
 	const onPrevious = () => onChange(step - 1);
 	return (
@@ -43,7 +50,7 @@ export default function App() {
 					Previous
 				</Button>
 				<Button onClick={onNext}
-					disabled={step === 3}>
+					disabled={step === 3} >
 					Next
 				</Button>
 			</ButtonGroup>
